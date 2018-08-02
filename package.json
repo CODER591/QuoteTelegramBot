@@ -5,16 +5,17 @@
   "main": "index.js",
   "dependencies": {
     "mongoosastic": "^4.4.1",
-    "mongoose": "^5.0.6",
+    "mongoose": "^5.2.6",
     "node-telegram-bot-api": "^0.30.0",
+    "npm": "^6.3.0",
     "save": "^2.3.2"
   },
   "devDependencies": {},
   "scripts": {
     "start": "node ./index.js"
   },
-  "engines":{
-    "node":"9.4.0"
+  "engines": {
+    "node": "9.4.0"
   },
   "author": "CODER591",
   "license": "GNU GPL v2.0"
