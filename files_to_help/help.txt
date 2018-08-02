@@ -1,0 +1,13 @@
+/start - would start and you`ll see the keyboard
+
+/Help - you see this and all commands
+
+/Quote - bot send you an random quote
+
+/Businessquote -Quote send Quote about business
+
+/Lovequote - Quote about love
+
+/Settings - you can turn on/ off notifications
+
+/contact_author - you can contact with me 

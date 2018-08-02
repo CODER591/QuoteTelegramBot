@@ -1,0 +1,28 @@
+{
+    "quotes":[
+        {
+          "text":"Scientia potentia est",
+          "id": 1
+        },
+        {
+          "text":"Divide et impero",
+          "id": 2
+          
+        },
+        {
+           "text":"Alea iacta est",
+           "id": 3
+        },
+        {
+          "text":"There is nothing permanent except change.",
+          "id": 4
+       },
+       {
+        "text":"The main problem of quotes on the Internet is that people believe in their authenticity. -V.I.Lenin",
+        "id": 5
+       }
+
+    ]
+
+
+}
