@@ -1,4 +1,7 @@
 const fs       = require('fs');
+const request = require('request');
+const cheerio = require('cheerio');
+var http = require('http');
 const mongoose = require('mongoose');
 const models    = require('./models')
 const connect  = require ('./mongoconnect')
@@ -8,10 +11,10 @@ const Bizdatabase=require('./Databases/business_quotebase')
 const Lovedatabase = require('./Databases/love_quotebase')
 
 const { URL }  = require('url');
-const HelpUrl = new URL('file:///D:/myTelegrambot/files_to_help/help.txt');
-const QuoteUrl = new URL('file:///D:/myTelegrambot/files_to_help/quote.txt');
-const BusinessUrl = new URL('file:///D:/myTelegrambot/files_to_help/businessquote.txt');
-const LoveQuoteUrl = new URL('file:///D:/myTelegrambot/files_to_help/lovequote.txt');
+const HelpUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/help.txt');
+const QuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/quote.txt');
+const BusinessUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/businessquote.txt');
+const LoveQuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/lovequote.txt');
 //////////////||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const TelegramBot =require('node-telegram-bot-api')
 const TOKEN ='527795878:AAHntUVN-2O1S5uv1spDgSfhUAiSSWmIcRY'
@@ -122,6 +125,14 @@ bot.onText(/\/UpToDateBase/, (msg) => {
    //database.quotes.forEach(element => { new Quote(element).save() .catch(element=>console.log(element))});
    //Bizdatabase.businessquotes.forEach(element => { new BusinQ(element).save() .catch(element=>console.log(element))});
    //Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
+  request('https://motivationping.com/quotes/',(error,response,body)=>{
+       const $ = cheerio.load(body)
+       const wlinks = $('p').text();
+        console.log(wlinks);
+        //add writing to file and its over
+       
+
+    })
 
     var i=28;
    fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
@@ -161,7 +172,7 @@ bot.onText(/\/UpToDateBase/, (msg) => {
      k=k+1;
     });
   });
-
+   
 });
 
 bot.onText(/\/DeleteALLBase/,(msg)=>{
