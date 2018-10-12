@@ -127,14 +127,26 @@ bot.onText(/\/UpToDateBase/, (msg) => {
    //Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
   request('https://motivationping.com/quotes/',(error,response,body)=>{
        const $ = cheerio.load(body)
-       const wlinks = $('p').text();
-        console.log(wlinks);
+       const wlinks = $('p');//.text();
+        
+        // все кидає в один масив
         //add writing to file and its over
+         
+        
+        wlinks.each(i => {
+              var link = wlinks.eq(i).text();//+'\n';
+       		  fs.writeFile("./files_to_help/forBase.txt", link, function(err) {
+    					if(err) {return console.log(err);}
+    		 				
+              			console.log(link);
+    					console.log("The file was saved!");			
+			  }); 
        
+         });
 
     })
 
-    var i=28;
+    /*var i=28;
    fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
     if (err) throw err;
     data.split('\n').forEach(line => {
@@ -171,7 +183,7 @@ bot.onText(/\/UpToDateBase/, (msg) => {
       })     
      k=k+1;
     });
-  });
+  });*/
    
 });
 
