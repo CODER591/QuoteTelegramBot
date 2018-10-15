@@ -128,26 +128,39 @@ bot.onText(/\/UpToDateBase/, (msg) => {
   request('https://motivationping.com/quotes/',(error,response,body)=>{
        const $ = cheerio.load(body)
        const wlinks = $('p');//.text();
-        
-        // все кидає в один масив
-        //add writing to file and its over
-         
-        
+ 
         wlinks.each(i => {
-              var link = wlinks.eq(i).text();//+'\n';
-       		  fs.writeFile("./files_to_help/forBase.txt", link, function(err) {
+              var link = wlinks.eq(i).text();
+       		  fs.writeFile("./files_to_help/"+i+".txt", link,"utf-8", function(err) {
     					if(err) {return console.log(err);}
     		 				
-              			console.log(link);
+              			//console.log(link);
     					console.log("The file was saved!");			
 			  }); 
+			   
        
          });
 
     })
 
-    /*var i=28;
-   fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
+  for (var j = 0; j < 380; j++) 
+  {
+  	fs.readFile("./files_to_help/"+j+".txt",{encoding:'utf8'},(err,data)=>{
+           data.split('\n').forEach(line=>{ 
+           	console.log(line)
+           	var line1=line+'\n';
+            //fs.writeFile("./files_to_help/forBase.txt",line1,"utf-8",function(err){
+      				//if (err) throw err;
+
+             //})
+           })
+  	})
+  }
+  
+
+
+    var i=Quote.count({},function(err,count){console.log("Quote count is "+count)}); //28
+   /*fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
     if (err) throw err;
     data.split('\n').forEach(line => {
       var QuotTXTLine = line;
@@ -157,10 +170,10 @@ bot.onText(/\/UpToDateBase/, (msg) => {
       })     
      i=i+1;
     });
-  });
+  });*/
  
-  var j=8;
-  fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
+  var j=BusinQ.count({},function(err,count){console.log("Biz count is "+count)}); //j=8;
+ /* fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
     if (err) throw err;
     data.split('\n').forEach(line => {
       var BizQuotTXTLine = line;
@@ -170,10 +183,10 @@ bot.onText(/\/UpToDateBase/, (msg) => {
       })     
      j=j+1;
     });
-  });
+  });*/
 
-  var k=8;
-  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
+  var k=LoveQ.count({},function(err,count){console.log("Love count is "+count)});//k=8;
+ /* fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
     if (err) throw err;
     data.split('\n').forEach(line => {
       var LoveQuotTXTLine = line;
@@ -189,7 +202,7 @@ bot.onText(/\/UpToDateBase/, (msg) => {
 
 bot.onText(/\/DeleteALLBase/,(msg)=>{
 
-    for(let iiid=0;iiid<35;iiid++)
+    for(let iiid=0;iiid<100;iiid++)
     {
      Quote.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
      BusinQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
