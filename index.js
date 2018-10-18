@@ -120,11 +120,43 @@ bot.onText(/\/Disnotify/,(msg)=> {
 
 });
 
+bot.onText(/\/Update/,(msg)=> {
+
+    bot.sendMessage(msg.chat.id,"Look on Update keyboard",{
+        	reply_markup:{
+            	keyboard:[['/UpdateParse'],['/DeleteQuote'],['/DeleteBusinQ'],['/DeleteLoveQ']]
+        	}
+    	});
+});
+
+bot.onText(/\/UpdateParse/,(msg)=> {
+     bot.sendMessage(msg.chat.id," Look in source  code at link, what you Updating");
+
+     request('https://motivationping.com/quotes/',(error,response,body)=>{
+       const $ = cheerio.load(body)
+       const wlinks = $('p');//.text();
+ 
+        wlinks.each(i => {
+              var link = wlinks.eq(i).text();
+       		  fs.writeFile("./files_to_help/"+i+".txt", link,"utf-8", function(err) {
+    					if(err) {return console.log(err);}	
+              			//console.log(link);
+    					//console.log("The file was saved!");			
+			  }); 
+			   
+       
+         });
+
+     })
+  
+});
+// make 3 commands by markup to update quote biz or love  
 bot.onText(/\/UpToDateBase/, (msg) => {
  
    //database.quotes.forEach(element => { new Quote(element).save() .catch(element=>console.log(element))});
    //Bizdatabase.businessquotes.forEach(element => { new BusinQ(element).save() .catch(element=>console.log(element))});
    //Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
+   /*console.log('Updating')
   request('https://motivationping.com/quotes/',(error,response,body)=>{
        const $ = cheerio.load(body)
        const wlinks = $('p');//.text();
@@ -135,82 +167,119 @@ bot.onText(/\/UpToDateBase/, (msg) => {
     					if(err) {return console.log(err);}
     		 				
               			//console.log(link);
-    					console.log("The file was saved!");			
+    					//console.log("The file was saved!");			
 			  }); 
 			   
        
          });
 
-    })
-
+    })*/
+    console.log('end of parsing quotes and writing to file')
   for (var j = 0; j < 380; j++) 
   {
   	fs.readFile("./files_to_help/"+j+".txt",{encoding:'utf8'},(err,data)=>{
            data.split('\n').forEach(line=>{ 
            	console.log(line)
            	var line1=line+'\n';
-            //fs.writeFile("./files_to_help/forBase.txt",line1,"utf-8",function(err){
-      				//if (err) throw err;
-
-             //})
+            //here we need to create new object in DB
            })
   	})
   }
-  
 
-
-    var i=Quote.count({},function(err,count){console.log("Quote count is "+count)}); //28
-   /*fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
-    if (err) throw err;
-    data.split('\n').forEach(line => {
-      var QuotTXTLine = line;
-      
-      Quote.create({ text:QuotTXTLine,id:i }, function (err, small) {
-        if (err) return handleError(err);
-      })     
-     i=i+1;
-    });
-  });*/
- 
-  var j=BusinQ.count({},function(err,count){console.log("Biz count is "+count)}); //j=8;
- /* fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
-    if (err) throw err;
-    data.split('\n').forEach(line => {
-      var BizQuotTXTLine = line;
-      
-      BusinQ.create({ text:BizQuotTXTLine,id:j }, function (err, small) {
-        if (err) return handleError(err);
-      })     
-     j=j+1;
-    });
-  });*/
-
-  var k=LoveQ.count({},function(err,count){console.log("Love count is "+count)});//k=8;
- /* fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
-    if (err) throw err;
-    data.split('\n').forEach(line => {
-      var LoveQuotTXTLine = line;
-      
-      LoveQ.create({ text:LoveQuotTXTLine,id:k }, function (err, small) {
-        if (err) return handleError(err);
-      })     
-     k=k+1;
-    });
-  });*/
-   
 });
 
-bot.onText(/\/DeleteALLBase/,(msg)=>{
+bot.onText(/\/UpdateTxtQuote/, (msg) => {
+     
+     //var i=Quote.count({},function(err,count){console.log("Quote count is "+count)}); //28
+     var i=28;
+  	 fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
+   		 if (err) throw err;
+   		 data.split('\n').forEach(line => {
+     		 var QuotTXTLine = line;
+      
+        Quote.create({ text:QuotTXTLine,id:i }, function (err, small) {
+           if (err) return handleError(err);
+        })     
+       i=i+1;
+       });
+     });
+});
+bot.onText(/\/UpdateTxtBiznes/, (msg) => {
+   
+    //var j=BusinQ.count({},function(err,count){console.log("Biz count is "+count)}); //j=8;
+    var j=8;
+  fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
+     if (err) throw err;
+     data.split('\n').forEach(line => {
+       var BizQuotTXTLine = line;
+      
+       BusinQ.create({ text:BizQuotTXTLine,id:j }, function (err, small) {
+         if (err) return handleError(err);
+       })     
+      j=j+1;
+     });
+   });
+});
+bot.onText(/\/UpdateTxtLove/, (msg) => {
 
-    for(let iiid=0;iiid<100;iiid++)
+      // var k=LoveQ.count({},function(err,count){console.log("Love count is "+count)});//k=8;
+       var k=8;
+  	  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
+    	if (err) throw err;
+   	 	data.split('\n').forEach(line => {
+      	var LoveQuotTXTLine = line;
+      
+      	LoveQ.create({ text:LoveQuotTXTLine,id:k }, function (err, small) {
+       	  if (err) return handleError(err);
+     	  })     
+     	  k=k+1;
+    	 });
+  	  });
+});
+bot.onText(/\/Delete/,(msg)=>{
+	
+		bot.sendMessage(msg.chat.id,"Look on Deleting keyboard",{
+        	reply_markup:{
+            	keyboard:[['/DeleteALLBase'],['/DeleteQuote'],['/DeleteBusinQ'],['/DeleteLoveQ']]
+        	}
+    	});
+});
+bot.onText(/\/DeleteALLBase/,(msg)=>{
+		
+    for(let iiid=0;iiid<=100;iiid++)
     {
      Quote.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
      BusinQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
      LoveQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
     }
-
 });
+bot.onText(/\/DeleteQuote/,(msg)=>{
+    var P=Quote.count({},function(err,count){console.log("Quote count is "+count)}); //28
+    for (var iiid = 0; iiid <=100; iiid++) {
+      Quote.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
+   	}
+    console.log('All Quote removed');
 
+    console.log("Removing control: "+P);
+});
+bot.onText(/\/DeleteBusinQ/,(msg)=>{
+    var J=BusinQ.count({},function(err,count){console.log("Biz count is "+count)}); //j=8;
+    for (var iiid = 0; iiid <=100; iiid++) {
+    	BusinQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
+   	}
+   	console.log(' All BusinQ removed');
+
+   	console.log("Removing control: "+J);
+});
+bot.onText(/\/DeleteLoveQ/,(msg)=>{
+     var K=LoveQ.count({},function(err,count){console.log("Love count is "+count)});//k=8;
+     for (var iiid = 0; iiid < 100; iiid++) {
+  		LoveQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
+  	 }
+  	 console.log(' All LoveQ removed');
+
+  	 console.log("Removing control: "+K);
+});
 // database useful  used methods
     //method used to delete any element by field
             //Quote.find({id:number}).remove().then(_ =>console.log('Removed'))
