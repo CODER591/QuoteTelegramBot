@@ -37,11 +37,7 @@ function QuoteCount() {
     					if(err) {return console.log(err);}				
 	 });
     }); 
-    fs.readFile("./files_to_help/QuoteNum.txt",{encoding:'utf8'},(err,data)=>{
-             var ret=0+data;
-             return ret;
-           
-   });
+    
    var data = fs.readFileSync("./files_to_help/QuoteNum.txt");
    var d1= parseInt(data);
    return d1; 
