@@ -17,7 +17,7 @@ const BusinessUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/bu
 const LoveQuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/lovequote.txt');
 //////////////||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const TelegramBot =require('node-telegram-bot-api')
-const TOKEN ='527795878:AAHntUVN-2O1S5uv1spDgSfhUAiSSWmIcRY'
+const TOKEN ='527795878:AAHGPlqYEcmLMdjLHFLulBlMugfyYSXHgBw'
 
 const bot = new  TelegramBot(TOKEN,{
     polling:  true
@@ -42,6 +42,10 @@ function QuoteCount() {
              return ret;
            
    });
+   var data = fs.readFileSync("./files_to_help/QuoteNum.txt");
+   var d1= parseInt(data);
+   return d1; 
+   
 } 
 function LovequoteCount() {
    LoveQ.count({},function(err,count){
@@ -50,11 +54,10 @@ function LovequoteCount() {
     					if(err) {return console.log(err);}				
 	 });
     }); 
-    fs.readFile("./files_to_help/LoveQNum.txt",{encoding:'utf8'},(err,data)=>{
-             var ret=0+data;
-             return ret;
-           
-   }); 
+    
+   var data = fs.readFileSync("./files_to_help/LoveQNum.txt");
+   var d1= parseInt(data);
+   return d1; 
 } 
 function BizquoteCount() {
    
@@ -64,11 +67,11 @@ function BizquoteCount() {
     					if(err) {return console.log(err);}				
 	 });
     }); 
-    fs.readFile("./files_to_help/BusinQNum.txt",{encoding:'utf8'},(err,data)=>{
-             
-             var ret=0+data;
-             return ret;
-   });
+    //fs.readFile("./files_to_help/BusinQNum.txt",{encoding:'utf8'},(err,data)=>{
+   //});
+   var data = fs.readFileSync("./files_to_help/BusinQNum.txt");
+   var d1= parseInt(data);
+   return d1; 
 } 
 
 bot.onText(/\/start/, (msg) => {
@@ -299,7 +302,6 @@ bot.onText(/\/UpdateTxt/,(msg)=> {
     	});
 });
 
-
 bot.onText(/\/UpdateTxtQuote/, (msg) => {
      
      //var i=Quote.count({},function(err,count){console.log("Quote count is "+count)}); //28
@@ -336,6 +338,7 @@ bot.onText(/\/UpdateTxtLove/, (msg) => {
 
       // var k=LoveQ.count({},function(err,count){console.log("Love count is "+count)});//k=8;
        var k=LovequoteCount();
+       
   	  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
     	if (err) throw err;
    	 	data.split('\n').forEach(line => {
