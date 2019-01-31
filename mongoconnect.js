@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/BotForTelegram')
+mongoose.connect('mongodb://localhost:27017/BotForTelegram',{ useNewUrlParser: true })
  .then(()=> console.log('we connected'))
  .catch(e =>console.log(e))
 

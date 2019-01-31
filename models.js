@@ -7,12 +7,16 @@ const Schema = mongoose.Schema;
 var userSchema = new Schema({
         firstname: String,
         lastname:  String,
+        username:String,
         userid: Number,
         chat_id: Number,
         phonenumber:Number,
         subscribed: {type: Boolean, default:false},
         banned:{type:Boolean,default:false},
         admin:{type:Boolean,default:false},
+        quotehis:[],
+        bizhis:[],
+        lovehis:[]
 
     }
 )

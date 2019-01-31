@@ -8,8 +8,8 @@
     "mongoosastic": "^4.4.1",
     "mongoose": "^5.2.6",
     "node-telegram-bot-api": "^0.30.0",
-    "npm": "^6.4.1",
-    "save": "^2.3.2"
+    "npm": "^6.7.0",
+    "save": "^2.3.3"
   },
   "devDependencies": {},
   "scripts": {
