@@ -6,7 +6,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "mongoosastic": "^4.4.1",
-    "mongoose": "^5.2.6",
+    "mongoose": "^5.4.19",
     "node-telegram-bot-api": "^0.30.0",
     "npm": "^6.7.0",
     "save": "^2.3.3"
