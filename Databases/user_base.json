@@ -1,0 +1,20 @@
+{
+    "users":[
+        {
+        "firstname":"Akasun",
+        "lastname":  "Sasori",
+        "username":"Sasori541",
+        "userid":  493556620,
+        "chat_id": 493556620,
+        "phonenumber":380954108951,
+        "subscribed": false,
+        "banned": false,
+        "admin": true,
+        "quotehis":0,
+        "bizhis":0,
+        "lovehis":0
+        }
+
+    ]
+
+}

@@ -18,7 +18,7 @@ const BusinessUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/bu
 const LoveQuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/lovequote.txt');
 //////////////||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const TelegramBot =require('node-telegram-bot-api')
-const TOKEN ='527795878:AAGvCHi4GNE5IbKkvTHd8vRAS8VbcCuTtkM'
+const TOKEN ='527795878:AAGX8EHSpj6RVX9K33elotlccPVbGlMOXx8'
 
 const bot = new  TelegramBot(TOKEN,{
     polling:  true
@@ -83,6 +83,11 @@ bot.on('message',(msg)=>{
 })
 bot.onText(/\/contact_author/, (msg) => {
     bot.sendMessage(msg.chat.id,"Here is the my contact e-mail: mazorchyk@gmail.com");
+   
+//need to delete next lines after creating db
+    //database.quotes.forEach(element => { new Quote(element).save() .catch(element=>console.log(element))});
+  // Bizdatabase.businessquotes.forEach(element => { new BusinQ(element).save() .catch(element=>console.log(element))});
+  // Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
 })
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id,"Look on keyboard",{
@@ -95,8 +100,8 @@ bot.onText(/\/start/, (msg) => {
 
 bot.onText(/\/Quote/, (msg) => {
     //var number = Math.floor(Math.random() * (27 - 1 + 1)) + 1;
-    var number = getRandomInt(1,48);
-    
+    var number = getRandomInt(1,QuoteCount());
+    var number = 1;
        Quote.findOne({ 'id': number }, function (err, quotes) {
         if (err) return handleError(err);
         //console.log(quotes.text);
@@ -137,21 +142,6 @@ bot.onText(/\/Help/,(msg)=> {
 });
 
 bot.onText(/\/Settings/,(msg) =>{
-  /* bot.sendMessage(msg.chat.id, "Look on inline keyboard",{
-       reply_markup: {
-       inline_keyboard: [
-              [ {
-                   text:"/Notify",   
-                   callback_data:"/Notify" 
-                                             }],
-              [ { 
-                   text:"/Disnotify", 
-                   callback_data:"/Disnotify" 
-                                              }]
-               ]
-                     
-            }
-      });*/
       bot.sendMessage(msg.chat.id,"look on keyboard",{
         reply_markup:{
             keyboard:[['/Notify'],['/Disnotify'],['/start']]
