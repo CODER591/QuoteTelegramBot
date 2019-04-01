@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const models    = require('./models')
 const connect  = require ('./mongoconnect')
 
-const database = require('./quotebase')
+const database = require('./Databases/quotebase')
 const Bizdatabase=require('./Databases/business_quotebase')
 const Lovedatabase = require('./Databases/love_quotebase')
 const userdb=require('./Databases/user_base')
@@ -18,7 +18,7 @@ const BusinessUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/bu
 const LoveQuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/lovequote.txt');
 //////////////||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const TelegramBot =require('node-telegram-bot-api')
-const TOKEN ='527795878:AAGX8EHSpj6RVX9K33elotlccPVbGlMOXx8'
+const TOKEN ='527795878:AAGCLX19aQsskQmCh-XMwmqSlLwK54eMRNI'
 
 const bot = new  TelegramBot(TOKEN,{
     polling:  true
@@ -328,7 +328,7 @@ bot.onText(/\/Delete/,(msg)=>{
 });
 bot.onText(/\/DeleteALLBase/,(msg)=>{
 		
-    for(let iiid=0;iiid<=100;iiid++)
+    for(let iiid=0;iiid<=1000;iiid++)
     {
      Quote.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
      BusinQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
@@ -348,7 +348,7 @@ bot.onText(/\/DeleteQuote/,(msg)=>{
 bot.onText(/\/DeleteBusinQ/,(msg)=>{
     //var J=BusinQ.count({},function(err,count){console.log("Biz count is "+count)}); //j=8;
     var J=BizquoteCount()
-    for (var iiid = 0; iiid <=100; iiid++) {
+    for (var iiid = 0; iiid <=BizquoteCount(); iiid++) {
     	BusinQ.find({id:iiid}).remove().then(_ =>console.log('Removed',iiid))
    	}
    	console.log(' All BusinQ removed');

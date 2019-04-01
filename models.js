@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const database = require('./quotebase')
+const database = require('./Databases/quotebase')
 const mongoosactic =require('mongoosastic')
 const Schema = mongoose.Schema;
 
