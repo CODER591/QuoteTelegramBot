@@ -69,10 +69,7 @@ function BizquoteCount() {
    var d1= parseInt(data);
    return d1; 
 } 
-
-
-function getRandomInt(min, max) 
-{
+function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //Включно з мінімальним та виключаючи максимальне значення 
@@ -83,11 +80,6 @@ bot.on('message',(msg)=>{
 })
 bot.onText(/\/contact_author/, (msg) => {
     bot.sendMessage(msg.chat.id,"Here is the my contact e-mail: mazorchyk@gmail.com");
-   
-//need to delete next lines after creating db
-    //database.quotes.forEach(element => { new Quote(element).save() .catch(element=>console.log(element))});
-   Bizdatabase.businessquotes.forEach(element => { new BusinQ(element).save() .catch(element=>console.log(element))});
-  // Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
 })
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id,"Look on keyboard",{
@@ -97,19 +89,17 @@ bot.onText(/\/start/, (msg) => {
     });
     
 });
+
 bot.onText(/\/Quote/, (msg) => {
     //var number = Math.floor(Math.random() * (27 - 1 + 1)) + 1;
     var number = getRandomInt(1,QuoteCount());
-    //var number = ;
        Quote.findOne({ 'id': number }, function (err, quotes) {
         if (err) return handleError(err);
-        //console.log(quotes.text);
         const TXT=quotes.text;
         bot.sendMessage(msg.chat.id,TXT)   
       });      
  
 });
-
 bot.onText(/\/Businessquote/, (msg) => {
     //var number = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
     var number = getRandomInt(1,BizquoteCount());
@@ -119,9 +109,7 @@ bot.onText(/\/Businessquote/, (msg) => {
         const TXT=businessquotes.text;
         bot.sendMessage(msg.chat.id,TXT)   
       });      
- 
 });
-
 bot.onText(/\/Lovequote/, (msg) => {
     //var number = Math.floor(Math.random() * (7 - 1 + 1)) + 1;
     var number = getRandomInt(1,LovequoteCount()-1);
@@ -219,7 +207,6 @@ bot.onText(/\/UpdateParseQuote/,(msg)=> {
   	})
    }
 });
-/*
 bot.onText(/\/UpdateParseBiz/,(msg)=> {
    var k=BizquoteCount();
    for (var j = 0; j < 380; j++) 
@@ -238,7 +225,6 @@ bot.onText(/\/UpdateParseBiz/,(msg)=> {
   	})
    }
 });
-*/
 bot.onText(/\/UpdateParseLove/,(msg)=> {
    //var k=LovequoteCount();
    var k=8;
@@ -282,13 +268,13 @@ bot.onText(/\/UpdateTxtQuote/, (msg) => {
        });
      });
 });
+
 bot.onText(/\/UpdateTxtBiznes/, (msg) => {
     var j=BizquoteCount();
     fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
       if (err) throw err;
       data.split('\n').forEach(line => {
         var BizQuotTXTLine = line;
-      
         BusinQ.create({ text:BizQuotTXTLine,id:j }, function (err, small) {
           if (err) return handleError(err);
         })     
@@ -296,6 +282,7 @@ bot.onText(/\/UpdateTxtBiznes/, (msg) => {
       });
     });
 });
+
 bot.onText(/\/UpdateTxtLove/, (msg) => {
       var k=LovequoteCount();
   	  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
@@ -405,7 +392,8 @@ bot.onText(/\/DeleteLoveQ/,(msg)=>{
     //method used to create base by reading quotebase.json
             //database.quotes.forEach(element => { new Quote(element).save() .catch(element=>console.log(element))});
             //userdb.users.forEach(element => { new User(element).save() .catch(element=>console.log(element))});
-
+            // Bizdatabase.businessquotes.forEach(element => { new BusinQ(element).save() .catch(element=>console.log(element))});
+            // Lovedatabase.lovequotes.forEach(element => { new LoveQ(element).save() .catch(element=>console.log(element))});
 
 
 //myTelegrambot
