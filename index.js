@@ -84,7 +84,7 @@ bot.onText(/\/contact_author/, (msg) => {
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id,"Look on keyboard",{
         reply_markup:{
-            keyboard:[['/Quote'],['/Help'],['/Businessquote'],['/Lovequote']]
+            keyboard:[['/Quote'],['/Help'],['/FindHelp'],['/Businessquote'],['/Lovequote']]
         }
     });
     
@@ -95,18 +95,48 @@ bot.onText(/\/Debug/,(msg) => {
     //input here all what you want to try
 });
 
-bot.onText(/\/find (.*)|\/find/, (msg, match) => {  //find  quote text
-
-      const quote = match[1];
+bot.onText(/\/find (.*):(.*)|\/find/, (msg, match) => {  //find  quote text
+      const choice = match[1];
+      const quote  = match[2];
+      var isChoiceObjectEmpty = !Object.keys(choice).length;
+      var isQuoteObjectEmpty = !Object.keys(quote).length;
       const telegramId = msg.from.id;
-      //console.log(match[1]);
-      if(quote!=null) {
-        bot.sendMessage(msg.chat.id,"debug mode");
-        Quote.findOne({'text': {'$regex': match[1], '$options': 'i'}},function(err,quotes) {
-            bot.sendMessage(msg.chat.id,quotes.text);
-        });
+      if(isQuoteObjectEmpty==false) { // probably working on quote!=null
+         if(choice == "Q") {
+              Quote.findOne({'text': {'$regex': quote, '$options': 'i'}},function(err,quotes) {
+                  if(quotes!=null){
+                   bot.sendMessage(msg.chat.id,quotes.text);
+                   } // what to do with this null text property //probably fixed with if statement
+                   else {
+                      bot.sendMessage(msg.chat.id,"Dont find such Quote");
+                   }
+              });
+         }
+         if(choice == "B") {
+              BusinQ.findOne({'text': {'$regex': quote, '$options': 'i'}},function(err,quotes) {
+                  if(quotes!=null){
+                    bot.sendMessage(msg.chat.id,quotes.text);
+                  }
+                  else {
+                      bot.sendMessage(msg.chat.id,"Dont find such Quote");
+                  }
+              });
+         }
+         if(choice == "L") {
+              LoveQ.findOne({'text': {'$regex': quote, '$options': 'i'}},function(err,quotes) {
+                   if(quotes!=null){
+                     bot.sendMessage(msg.chat.id,quotes.text);
+                   }
+                   else {
+                      bot.sendMessage(msg.chat.id,"Dont find such Quote");
+                   }
+              });
+         }
       }
-
+      else {
+         bot.sendMessage(msg.chat.id,"Please input string in format as in example: /find Q:Scientia");
+      }
+  
 });
 
 bot.onText(/\/Quote/, (msg) => {
@@ -143,6 +173,10 @@ bot.onText(/\/Lovequote/, (msg) => {
 bot.onText(/\/Help/,(msg)=> {
     
     bot.sendMessage(msg.chat.id,helpfile)
+});
+bot.onText(/\/FindHelp/,(msg) => {
+    bot.sendMessage(msg.chat.id,"To find quote input string as in example:\n/find Q:Scientia\nQ - Quotes\nB - Business quotes\nL - Love quotes");
+    //input here all what you want to try
 });
 bot.onText(/\/Settings/,(msg) =>{
       bot.sendMessage(msg.chat.id,"look on keyboard",{

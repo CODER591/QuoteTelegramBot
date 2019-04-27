@@ -2,6 +2,12 @@
 
 /Help - you see this and all commands
 
+/find - you can search quote in appropriate collection
+  example: /find Q:Scientia
+		Q-Quotes
+		B-Business quotes
+		L-Love quotes
+
 /Quote - bot send you an random quote
 
 /Businessquote -Quote send Quote about business
