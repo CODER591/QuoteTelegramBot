@@ -90,6 +90,25 @@ bot.onText(/\/start/, (msg) => {
     
 });
 
+bot.onText(/\/Debug/,(msg) => {
+    bot.sendMessage(msg.chat.id,"debug mode");
+    //input here all what you want to try
+});
+
+bot.onText(/\/find (.*)|\/find/, (msg, match) => {  //find  quote text
+
+      const quote = match[1];
+      const telegramId = msg.from.id;
+      //console.log(match[1]);
+      if(quote!=null) {
+        bot.sendMessage(msg.chat.id,"debug mode");
+        Quote.findOne({'text': {'$regex': match[1], '$options': 'i'}},function(err,quotes) {
+            bot.sendMessage(msg.chat.id,quotes.text);
+        });
+      }
+
+});
+
 bot.onText(/\/Quote/, (msg) => {
     //var number = Math.floor(Math.random() * (27 - 1 + 1)) + 1;
     var number = getRandomInt(1,QuoteCount());
@@ -121,13 +140,10 @@ bot.onText(/\/Lovequote/, (msg) => {
 	      	});
 	      	
 });
-
 bot.onText(/\/Help/,(msg)=> {
-
+    
     bot.sendMessage(msg.chat.id,helpfile)
-
 });
-
 bot.onText(/\/Settings/,(msg) =>{
       bot.sendMessage(msg.chat.id,"look on keyboard",{
         reply_markup:{
@@ -135,24 +151,16 @@ bot.onText(/\/Settings/,(msg) =>{
         }
     });
 });
-
 bot.onText(/\/Notify/,(msg)=> {
-    
     bot.sendMessage(msg.chat.id,"Your notificaton is enabled ",{
         disable_notifications:false
     });
-
 });
-
 bot.onText(/\/Disnotify/,(msg)=> {
-    
     bot.sendMessage(msg.chat.id,"Your notificaton is disabled",{
         disable_notifications:true
     });
-
 });
-
-
 bot.onText(/\/Update/,(msg)=> {
 
     bot.sendMessage(msg.chat.id,"Look on Update keyboard",{
@@ -161,7 +169,6 @@ bot.onText(/\/Update/,(msg)=> {
         	}
     	});
 });
-
 bot.onText(/\/UpdateParse/,(msg)=> {
      bot.sendMessage(msg.chat.id," Look in source  code at link, what you Updating");
 
@@ -188,7 +195,6 @@ bot.onText(/\/UpdateParse/,(msg)=> {
         	}
     	});
 });
-
 bot.onText(/\/UpdateParseQuote/,(msg)=> {
    var k=QuoteCount();
    for (var j = 0; j < 380; j++) 
@@ -245,7 +251,6 @@ bot.onText(/\/UpdateParseLove/,(msg)=> {
   	})
    }
 });
-
 bot.onText(/\/UpdateTxt/,(msg)=> {
 	//need to add an instruction
 	bot.sendMessage(msg.chat.id,"Look on UpdateTxt keyboard",{
@@ -254,7 +259,6 @@ bot.onText(/\/UpdateTxt/,(msg)=> {
         	}
     	});
 });
-
 bot.onText(/\/UpdateTxtQuote/, (msg) => {
      var i=QuoteCount();
   	 fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
@@ -268,7 +272,6 @@ bot.onText(/\/UpdateTxtQuote/, (msg) => {
        });
      });
 });
-
 bot.onText(/\/UpdateTxtBiznes/, (msg) => {
     var j=BizquoteCount();
     fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
@@ -282,7 +285,6 @@ bot.onText(/\/UpdateTxtBiznes/, (msg) => {
       });
     });
 });
-
 bot.onText(/\/UpdateTxtLove/, (msg) => {
       var k=LovequoteCount();
   	  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
