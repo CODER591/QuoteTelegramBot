@@ -5,9 +5,6 @@ const mongoosactic =require('mongoosastic')
 const Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-        firstname: String,
-        lastname:  String,
-        username:String,
         userid: Number,
         chat_id: Number,
         phonenumber:Number,
@@ -15,8 +12,6 @@ var userSchema = new Schema({
         banned:{type:Boolean,default:false},
         admin:{type:Boolean,default:false},
         quotehis:[],
-        bizhis:[],
-        lovehis:[]
 
     }
 )

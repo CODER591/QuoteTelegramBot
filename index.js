@@ -18,7 +18,7 @@ const BusinessUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/bu
 const LoveQuoteUrl = new URL('file:///D:/MY_PROJCT/MyTelegramBot/files_to_help/lovequote.txt');
 //////////////||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 const TelegramBot =require('node-telegram-bot-api')
-const TOKEN ='527795878:AAF6DHhoq1PiVgC0WEvIvaumW8ccgpR-usU'
+const TOKEN ='527795878:AAHFZzNLrIoq6gt5ZBPiW_FBy4OTzcT_PkA'
 
 const bot = new  TelegramBot(TOKEN,{
     polling:  true
@@ -30,6 +30,8 @@ const Quote = mongoose.model('Quote')
 const LoveQ = mongoose.model('LoveQ')
 const BusinQ= mongoose.model('BusinQ')
 const User  = mongoose.model('User')
+
+var isAdmin=0;
 
 function QuoteCount() {
    Quote.count({},function(err,count){
@@ -74,10 +76,6 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //Включно з мінімальним та виключаючи максимальне значення 
 }
-
-bot.on('message',(msg)=>{
-    
-})
 bot.onText(/\/contact_author/, (msg) => {
     bot.sendMessage(msg.chat.id,"Here is the my contact e-mail: mazorchyk@gmail.com");
 })
@@ -88,11 +86,6 @@ bot.onText(/\/start/, (msg) => {
         }
     });
     
-});
-
-bot.onText(/\/Debug/,(msg) => {
-    bot.sendMessage(msg.chat.id,"debug mode");
-    //input here all what you want to try
 });
 
 bot.onText(/\/find (.*):(.*)|\/find/, (msg, match) => {  //find  quote text
@@ -195,41 +188,81 @@ bot.onText(/\/Disnotify/,(msg)=> {
         disable_notifications:true
     });
 });
-bot.onText(/\/Update/,(msg)=> {
 
-    bot.sendMessage(msg.chat.id,"Look on Update keyboard",{
+
+///*below is going admin functions
+//*
+//*
+//*
+//*
+
+bot.on('message',(msg)=>{
+    //bot.sendMessage(msg.chat.id,"debug mode");
+})
+//3) check by token is most safe way
+bot.onText(/\/Debug:(.*)|\/Debug/,(msg,match) => {
+    //input here all what you want to try
+    const token = match[1];
+    console.log(token);
+    bot.sendMessage(msg.chat.id,"debug mode");
+    if(token==TOKEN)
+    {
+        //you are authorized so do what you want
+    }
+    //if admin check
+    /*User.findOne({ 'chat_id': msg.chat.id }, function (err, user) {
+      
+    });*/
+    //firstly syncronus code after that async   
+    // based on this vari is changing and we are checking admin it or not  And we are checking ONLY inside callback
+    
+
+});
+
+bot.onText(/\/Update:(.*)|\/Update/,(msg,match)=> {
+    const token = match[1];
+    console.log(token);
+    if(token==TOKEN)
+    {
+     bot.sendMessage(msg.chat.id,"Look on Update keyboard",{
         	reply_markup:{
             	keyboard:[['/UpdateParse'],['/UpdateTxt']]
         	}
-    	});
+    });
+  }
 });
-bot.onText(/\/UpdateParse/,(msg)=> {
+bot.onText(/\/UpdateParse:(.*)|\/UpdateParse/,(msg,match)=> {
+     const token = match[1];
      bot.sendMessage(msg.chat.id," Look in source  code at link, what you Updating");
-
-     request('https://motivationping.com/quotes/',(error,response,body)=>{
-        const $ = cheerio.load(body)
-        const wlinks = $('p');//.text();
+    if(token==TOKEN)
+    {
+      request('https://motivationping.com/quotes/',(error,response,body)=>{
+         const $ = cheerio.load(body)
+         const wlinks = $('p');//.text();
  
-          wlinks.each(i => {
-              var link = wlinks.eq(i).text();
-       		  fs.writeFile("./files_to_help/"+i+".txt", link,"utf-8", function(err) {
-    					if(err) {return console.log(err);}	
+           wlinks.each(i => {
+               var link = wlinks.eq(i).text();
+       		   fs.writeFile("./files_to_help/"+i+".txt", link,"utf-8", function(err) {
+    				  	if(err) {return console.log(err);}	
               			//console.log(link);
     					//console.log("The file was saved!");			
-			  }); 
+			       }); 
 			   
        
-          });
+           });
 
      })
-  
-     bot.sendMessage(msg.chat.id,"quotes Are load to files\n Choose what you want to update",{
+      bot.sendMessage(msg.chat.id,"quotes Are load to files\n Choose what you want to update",{
         	reply_markup:{
             	keyboard:[['/UpdateParseQuote'],['/UpdateParseBiz'],['/UpdateParseLove']]
         	}
     	});
+   }
 });
-bot.onText(/\/UpdateParseQuote/,(msg)=> {
+bot.onText(/\/UpdateParseQuote:(.*)|\/UpdateParseQuote/,(msg,match)=> {
+  const token = match[1];
+  if(token==TOKEN)
+  {
    var k=QuoteCount();
    for (var j = 0; j < 380; j++) 
    {
@@ -246,8 +279,12 @@ bot.onText(/\/UpdateParseQuote/,(msg)=> {
           
   	})
    }
+ }
 });
-bot.onText(/\/UpdateParseBiz/,(msg)=> {
+bot.onText(/\/UpdateParseBiz:(.*)|\/UpdateParseBiz/,(msg,match)=> {
+  const token = match[1];
+  if(token==TOKEN)
+  {
    var k=BizquoteCount();
    for (var j = 0; j < 380; j++) 
    {
@@ -264,10 +301,13 @@ bot.onText(/\/UpdateParseBiz/,(msg)=> {
           
   	})
    }
+ }
 });
-bot.onText(/\/UpdateParseLove/,(msg)=> {
-   //var k=LovequoteCount();
-   var k=8;
+bot.onText(/\/UpdateParseLove:(.*)|\/UpdateParseLove/,(msg,match)=> {
+  const token = match[1];
+  if(token==TOKEN)
+  {
+   var k=LovequoteCount();
    for (var j = 0; j < 380; j++) 
    {
   	fs.readFile("./files_to_help/"+j+".txt",{encoding:'utf8'},(err,data)=>{
@@ -284,16 +324,24 @@ bot.onText(/\/UpdateParseLove/,(msg)=> {
           
   	})
    }
+ }
 });
-bot.onText(/\/UpdateTxt/,(msg)=> {
+bot.onText(/\/UpdateTxt:(.*)|\/UpdateTxt/,(msg,match)=> {
 	//need to add an instruction
+  const token = match[1];
+  if(token==TOKEN)
+  {
 	bot.sendMessage(msg.chat.id,"Look on UpdateTxt keyboard",{
         	reply_markup:{
             	keyboard:[['/UpdateTxtQuote'],['/UpdateTxtBiznes'],['/UpdateTxtLove']]
         	}
     	});
+  }
 });
-bot.onText(/\/UpdateTxtQuote/, (msg) => {
+bot.onText(/\/UpdateTxtQuote:(.*)|\/UpdateTxtQuote/, (msg,match) => {
+    const token = match[1];
+  if(token==TOKEN)
+  {
      var i=QuoteCount();
   	 fs.readFile(QuoteUrl, { encoding : 'utf8' },(err, data) => {
    		 if (err) throw err;
@@ -305,8 +353,12 @@ bot.onText(/\/UpdateTxtQuote/, (msg) => {
        i=i+1;
        });
      });
+  }
 });
-bot.onText(/\/UpdateTxtBiznes/, (msg) => {
+bot.onText(/\/UpdateTxtBiznes:(.*)|\/UpdateTxtBiznes/, (msg,match) => {
+    const token = match[1];
+  if(token==TOKEN)
+  {
     var j=BizquoteCount();
     fs.readFile(BusinessUrl, { encoding : 'utf8' },(err, data) => {
       if (err) throw err;
@@ -318,8 +370,12 @@ bot.onText(/\/UpdateTxtBiznes/, (msg) => {
        j=j+1;
       });
     });
+  }
 });
-bot.onText(/\/UpdateTxtLove/, (msg) => {
+bot.onText(/\/UpdateTxtLove:(.*)|\/UpdateTxtLove/, (msg,match) => {
+      const token = match[1];
+  if(token==TOKEN)
+  {
       var k=LovequoteCount();
   	  fs.readFile(LoveQuoteUrl, { encoding : 'utf8' },(err, data) => {
     	if (err) throw err;
@@ -332,45 +388,66 @@ bot.onText(/\/UpdateTxtLove/, (msg) => {
      	  k=k+1;
     	 });
   	  });
+    }
 });
-bot.onText(/\/Delete/,(msg)=>{
-		bot.sendMessage(msg.chat.id,"Look on Deleting keyboard",{
+bot.onText(/\/Delete:(.*)|\/Delete/,(msg,match)=>{
+		const token = match[1];
+  if(token==TOKEN)
+  {
+    bot.sendMessage(msg.chat.id,"Look on Deleting keyboard",{
         	reply_markup:{
             	keyboard:[['/DeleteALLBase'],['/DeleteQuote'],['/DeleteBusinQ'],['/DeleteLoveQ']]
         	}
     	});
+  }
 });
-bot.onText(/\/DeleteALLBase/,(msg)=>{
+bot.onText(/\/DeleteALLBase:(.*)|\/DeleteALLBase/,(msg,match)=>{
+      const token = match[1];
+  if(token==TOKEN)
+  {
     for(let iiid=0;iiid<=10000;iiid++)
     {
      Quote.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
      BusinQ.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
      LoveQ.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
     }
+  }
 });
-bot.onText(/\/DeleteQuote/,(msg)=>{
+bot.onText(/\/DeleteQuote:(.*)|\/DeleteQuote/,(msg,match)=>{
+      const token = match[1];
+  if(token==TOKEN)
+  {
     var P=QuoteCount();
     for (var iiid = 0; iiid <=100; iiid++) {
       Quote.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
    	}
     console.log('All Quote removed');
     console.log("Removing control: "+P);
+  }
 });
-bot.onText(/\/DeleteBusinQ/,(msg)=>{
+bot.onText(/\/DeleteBusinQ:(.*)|\/DeleteBusinQ/,(msg,match)=>{
+    const token = match[1];
+  if(token==TOKEN)
+  {
     var J=BizquoteCount();
     for (var iiid = 0; iiid <=BizquoteCount(); iiid++) {
     	BusinQ.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
    	}
    	console.log(' All BusinQ removed');
    	console.log("Removing control: "+J);
+   }
 });
-bot.onText(/\/DeleteLoveQ/,(msg)=>{
+bot.onText(/\/DeleteLoveQ:(.*)|\/DeleteLoveQ/,(msg,match)=>{
+    const token = match[1];
+  if(token==TOKEN)
+  {
      var L=LovequoteCount();
      for (var iiid = 0; iiid < 1000; iiid++) {
   		LoveQ.find({id:iiid}).remove().exec().then(_ =>console.log('Removed',iiid))
   	 }
   	 console.log(' All LoveQ removed');
      console.log("Removing control: "+J);
+   }
 });
 
 

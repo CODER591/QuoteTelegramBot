@@ -1,15 +1,12 @@
 {
     "users":[
         {
-        "firstname":"Akasun",
-        "lastname":  "Sasori",
-        "username":"Sasori541",
-        "userid":  493556620,
-        "chat_id": 493556620,
-        "phonenumber":380954108951,
+        "userid":  25,
+        "chat_id": 25,
+        "phonenumber":156,
         "subscribed": false,
         "banned": false,
-        "admin": true,
+        "admin": false,
         "quotehis":0,
         "bizhis":0,
         "lovehis":0
