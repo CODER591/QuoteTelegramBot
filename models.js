@@ -30,15 +30,4 @@ var LovequoteSchema = new Schema({
 mongoose.model('Quote',quoteSchema)
 mongoose.model('BusinQ',BusiquoteSchema)
 mongoose.model('LoveQ',LovequoteSchema)
-mongoose.model('User',userSchema) 
-
-
-
- //var number = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-      //    console.log(number); 
-
-
-
-  
-
-
+mongoose.model('User',userSchema)
